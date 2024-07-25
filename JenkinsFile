@@ -1,22 +1,22 @@
-pipeline {
-    agent any
-    tools{
-        maven 'maven_4_0_0'
-    }
-    stages{
-        stage('Build Maven'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MKsokili/cicd-springboot-app']]])
-                sh 'mvn clean install'
-            }
-        }
-        stage('Build docker image'){
-            steps{
-                script{
-                    sh 'docker build -t Jenkins-test-pipeline .'
-                }
-            }
-        }
+// pipeline {
+//     agent any
+//     tools{
+//         maven 'maven_4_0_0'
+//     }
+//     stages{
+//         stage('Build Maven'){
+//             steps{
+//                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MKsokili/cicd-springboot-app']]])
+//                 sh 'mvn clean install'
+//             }
+//         }
+//         stage('Build docker image'){
+//             steps{
+//                 script{
+//                     sh 'docker build -t Jenkins-test-pipeline .'
+//                 }
+//             }
+//         }
 //         stage('Push image to Hub'){
 //             steps{
 //                 script{
@@ -35,5 +35,37 @@ pipeline {
 //                 }
 //             }
 //         }
+//     }
+// }
+
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven3.9' 
     }
+
+    triggers {
+        pollSCM('* * * * *')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/MKsokili/cicd-springboot-app.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+    post {
+    always {
+        archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+        cleanWs()
+    }
+}
+
 }
