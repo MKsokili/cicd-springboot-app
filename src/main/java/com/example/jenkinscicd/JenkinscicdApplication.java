@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class JenkinscicdApplication {
 	@GetMapping
 	public String message(){
-		return "welcome to jenkins test ci cd test commit number 4 for package in pipeline project not freestyle test 5";
+		return "welcome to jenkins test ci cd pipeline form jenkinsfile in repo";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(JenkinscicdApplication.class, args);
