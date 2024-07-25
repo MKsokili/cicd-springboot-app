@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class JenkinscicdApplication {
 	@GetMapping
 	public String message(){
-		return "welcome to jenkins test ci cd test commit";
+		return "welcome to jenkins test ci cd test commit number 2 ";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(JenkinscicdApplication.class, args);
