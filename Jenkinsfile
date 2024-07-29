@@ -63,7 +63,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker --version
+                    docker.build("cicd-pipeline-testimage:1.0")
                 }
             }
         }
